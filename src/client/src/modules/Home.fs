@@ -11,7 +11,7 @@ let view model  dispatch =
     div [ ClassName "site-wrapper" ] [
         Header.view model dispatch
         main [] [
-            div [Id "home"] [
+            div [Id "home-page"] [
                 Posts.view { Posts = model.Posts } dispatch
             ]
         ]

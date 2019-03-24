@@ -26,7 +26,7 @@ module Types =
 
   type Msg = Nothing
 
-  type Model = { CurrentPage : Page ; Posts : Post list}
+  type Model = { CurrentPage : Page ; Posts : Post list }
 
 module MyState =
   open Elmish.Browser.Navigation
