@@ -1,4 +1,4 @@
-module Life.Client.App
+module App
 
 open Elmish
 open Elmish.React
@@ -27,7 +27,8 @@ let update (msg:Msg) (model:Model) =
 let view (model:Model) dispatch =
 
   div []
-      [ button [ OnClick (fun _ -> dispatch Increment) ] [ str "+" ]
+      [ div [] [ str ("hello Jeff") ]
+        button [ OnClick (fun _ -> dispatch Increment) ] [ str "+" ]
         div [] [ str (string model) ]
         button [ OnClick (fun _ -> dispatch Decrement) ] [ str "-" ] ]
 

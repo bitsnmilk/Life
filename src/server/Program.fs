@@ -1,8 +1,11 @@
-// Learn more about F# at http://fsharp.org
+module Server
 
-open System
+open Suave
+
+let config = { defaultConfig with
+                bindings = [ HttpBinding.createSimple HTTP "0.0.0.0" 8088 ] }
 
 [<EntryPoint>]
 let main argv =
-    printfn "Hello World from F#!"
+    startWebServer config (Successful.OK "Hello world")
     0 // return an integer exit code

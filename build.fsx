@@ -14,7 +14,7 @@ let run cmd args dir =
     Shell.Exec(cmd, args, dir) |> ignore
 
 let startClient() = run "npm" "start" clientPath
-let startServer() = run "dotnet" "run" serverPath
+let startServer() = run "dotnet" "watch run" serverPath
 
 // Default target
 Target.create "Default" (fun _ ->
