@@ -9,9 +9,9 @@
     <Compile Include="components/Posts.fs" />
     <Compile Include="components/Header.fs" />
     <Compile Include="components/Footer.fs" />
-    <Compile Include="modules/Home.fs" />
-    <Compile Include="modules/Post.fs" />
-    <Compile Include="modules/LogIn.fs" />
+    <Compile Include="pages/Home.fs" />
+    <Compile Include="pages/Post.fs" />
+    <Compile Include="pages/LogIn.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>
