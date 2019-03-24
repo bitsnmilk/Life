@@ -2,6 +2,11 @@ module Types
 
 open System
 
+type UserData = {
+    Username : string
+    Token : String
+}
+
 type Post = {
     Id: int
     Title : string

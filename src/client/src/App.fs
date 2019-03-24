@@ -10,35 +10,36 @@ open Elmish.Browser
 open Elmish.Browser.Navigation
 open Elmish.Browser.UrlParser
 open Elmish.ReactNative
-open Fable.Import
 open System
 
-
-type Model =
+type PageModel =
 | Home of Home.Model
 | Post of Post.Model
 | Login of Login.Model
 | NotFound
 
+type Model = {
+  User : UserData option
+  PageModel :PageModel
+}
+
 type Msg =
 | LoginMessage of Login.Msg
 
 let update msg model =
-  match (msg, model) with
+  match (msg, model.PageModel) with
   | LoginMessage loginMessage, Login loginModel ->
     let (subModel, subCmd) = Login.update loginMessage loginModel
-    (Login subModel, Cmd.map LoginMessage subCmd)
+    ({ model with PageModel = Login subModel }, Cmd.map LoginMessage subCmd)
   | LoginMessage _, _ -> (model, Cmd.none)
 
 
 let root model dispatch =
-  match model with
+  match model.PageModel with
   | Home model -> Home.view model dispatch
   | Post model -> Post.view model dispatch
   | Login model -> Login.view model (LoginMessage >> dispatch)
   | NotFound -> NotFound.view()
-
-
 
 let initialPosts = [
   { Id = 0 ; Title = "Welcome to Hikari for jekyll!" ; Description = "description" ; Body = "Body" ; CreatedAt = DateTime.Now ; UpdatedAt = DateTime.Now }
@@ -56,21 +57,20 @@ let initialPosts = [
 module App =
   let handlePageUpdate page model =
     match page with
-    | Page.Home -> (Home { Posts = initialPosts }, Cmd.none)
+    | Page.Home -> ({ model with PageModel = Home { Posts = initialPosts } }, Cmd.none)
     | Page.Post id ->
       initialPosts
       |> List.tryItem(id)
-      |> Option.map (fun p -> (Post { Post = p }, Cmd.none))
-      |> Option.defaultValue (NotFound, Cmd.none)
-    | Page.Login -> (Login Login.Model.Empty, Cmd.none)
+      |> Option.map (fun p -> ({ model with PageModel = Post { Post = p } }, Cmd.none))
+      |> Option.defaultValue ({ model with PageModel = NotFound }, Cmd.none)
+    | Page.Login -> ({ model with PageModel = Login Login.Model.Empty }, Cmd.none)
 
   let urlUpdate result model =
     match result with
     | Some page -> handlePageUpdate page model
-    | None -> (NotFound, Cmd.none)
+    | None -> ({ model with PageModel = NotFound }, Cmd.none)
 
-
-  let init result = urlUpdate result (Home { Posts = initialPosts })
+  let init result = urlUpdate result ({ User = None ; PageModel = Home { Posts = initialPosts } })
 
 Program.mkProgram App.init update root
 |> Program.toNavigable (parseHash Router.pageParser) App.urlUpdate
