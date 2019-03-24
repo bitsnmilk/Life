@@ -9,6 +9,6 @@ let view model dispatch =
             str "Powered by Life"
             str "- Theme: "
             a [ Href "https://github.com/m3xm/hikari-for-Jekyll" ] [ str "hikari" ]
-            str " - &copy; Jeff Boek"
+            str " - © Jeff Boek"
         ]
     ]

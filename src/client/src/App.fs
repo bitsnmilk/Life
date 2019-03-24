@@ -6,7 +6,12 @@ open Domain
 module View =
   let view (model : Types.Model) dispatch =
     match model.CurrentPage with
-    |  Global.Page.Home -> Modules.Home.view model dispatch
+    | Global.Page.Home -> Modules.Home.view model dispatch
+    | Global.Page.Post id ->
+      model.Posts
+      |> Seq.tryFind (fun p -> p.Id = id)
+      |> Option.map (fun p -> Modules.Post.view p dispatch)
+      |> Option.defaultValue (Modules.Home.view model dispatch)
 
 open Elmish
 open Elmish.Browser.Navigation
