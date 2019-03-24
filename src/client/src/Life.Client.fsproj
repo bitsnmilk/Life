@@ -10,8 +10,9 @@
     <Compile Include="components/Header.fs" />
     <Compile Include="components/Footer.fs" />
     <Compile Include="pages/Home.fs" />
-    <Compile Include="pages/Post.fs" />
     <Compile Include="pages/LogIn.fs" />
+    <Compile Include="pages/NotFound.fs" />
+    <Compile Include="pages/Post.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>

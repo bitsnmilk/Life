@@ -18,6 +18,7 @@ type Model =
 | Home of Home.Model
 | Post of Post.Model
 | Login of Login.Model
+| NotFound
 
 type Msg =
 | LoginMessage of Login.Msg
@@ -35,6 +36,7 @@ let root model dispatch =
   | Home model -> Home.view model dispatch
   | Post model -> Post.view model dispatch
   | Login model -> Login.view model (LoginMessage >> dispatch)
+  | NotFound -> NotFound.view()
 
 
 
@@ -52,19 +54,23 @@ let initialPosts = [
 ]
 
 module App =
+  let handlePageUpdate page model =
+    match page with
+    | Page.Home -> (Home { Posts = initialPosts }, Cmd.none)
+    | Page.Post id ->
+      initialPosts
+      |> List.tryItem(id)
+      |> Option.map (fun p -> (Post { Post = p }, Cmd.none))
+      |> Option.defaultValue (NotFound, Cmd.none)
+    | Page.Login -> (Login Login.Model.Empty, Cmd.none)
+
   let urlUpdate result model =
     match result with
-    | Some Page.Home -> (Home { Posts = initialPosts }, Cmd.none)
-    | Some (Page.Post id) -> (Post { Post = initialPosts.[id] }, Cmd.none)
-    | Some Page.Login -> (Login Login.Model.Empty, Cmd.none)
-    | None ->
-        Browser.console.error ("Error parsing url")
-        (model, Navigation.modifyUrl "#home")
+    | Some page -> handlePageUpdate page model
+    | None -> (NotFound, Cmd.none)
 
-  let init result =
-    let (model, cmd) = urlUpdate result (Home { Posts = initialPosts })
-    (model, cmd)
 
+  let init result = urlUpdate result (Home { Posts = initialPosts })
 
 Program.mkProgram App.init update root
 |> Program.toNavigable (parseHash Router.pageParser) App.urlUpdate
