@@ -8,6 +8,7 @@ open Components
 
 type Model = { Post : Post }
 
+
 let view model dispatch =
     div [ ClassName "site-wrapper" ] [
         Header.view()

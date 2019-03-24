@@ -41,7 +41,7 @@ let view model dispatch =
                     ]
 
                     p [ ClassName "buttons" ] [
-                        button [ Props.Type "submit" ; OnClick (fun _ -> dispatch (Login model)) ] [ str "Login" ]
+                        button [ Props.Type "submit" ; OnClick (fun _ -> model |> Login |> dispatch) ] [ str "Login" ]
                         a [ Href "/" ] [ str "Back to home" ]
                     ]
                 ]

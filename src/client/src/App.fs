@@ -51,7 +51,6 @@ let initialPosts = [
   { Id = 9 ; Title = "Welcome to Hikari for jekyll!" ; Description = "description" ; Body = "Body" ; CreatedAt = DateTime.Now ; UpdatedAt = DateTime.Now }
 ]
 
-
 module App =
   let urlUpdate result model =
     match result with
