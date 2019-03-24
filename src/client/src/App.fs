@@ -12,10 +12,16 @@ open Elmish.ReactNative
 open Fable.Import
 open System
 
+
+type Model = { CurrentPage : Page ; Posts : Post list }
+
 type Msg =
 | LoginMessage of Modules.Login.Msg
 
-type Model = { CurrentPage : Page ; Posts : Post list }
+let update msg model = (model, [])
+
+
+
 
 let root model dispatch =
   match model.CurrentPage with
@@ -27,12 +33,7 @@ let root model dispatch =
     |> Option.defaultValue (Modules.Home.view model.Posts)
   | Page.Login -> Modules.Login.view model dispatch
 
-let urlUpdate result model =
-    match result with
-    | Some page -> ({ model with CurrentPage = page }, [])
-    | None ->
-        Browser.console.error ("Error parsing url")
-        (model, Navigation.modifyUrl (Router.toHash model.CurrentPage))
+
 
 let private initalPosts = [
   { Id = 0 ; Title = "Welcome to Hikari for jekyll!" ; Description = "description" ; Body = "Body" ; CreatedAt = DateTime.Now ; UpdatedAt = DateTime.Now }
@@ -47,15 +48,22 @@ let private initalPosts = [
   { Id = 9 ; Title = "Welcome to Hikari for jekyll!" ; Description = "description" ; Body = "Body" ; CreatedAt = DateTime.Now ; UpdatedAt = DateTime.Now }
 ]
 
-let init result =
-  let (model, cmd) = urlUpdate result { CurrentPage = Home ; Posts = initalPosts }
-  (model, cmd)
 
-let update msg model = (model, [])
+module App =
+  let urlUpdate result model =
+    match result with
+    | Some page -> ({ model with CurrentPage = page }, Cmd.none)
+    | None ->
+        Browser.console.error ("Error parsing url")
+        (model, Navigation.modifyUrl (Router.toHash model.CurrentPage))
 
-// App
-Program.mkProgram init update root
-|> Program.toNavigable (parseHash Router.pageParser) urlUpdate
+  let init result =
+    let (model, cmd) = urlUpdate result { CurrentPage = Home ; Posts = initalPosts }
+    (model, cmd)
+
+
+Program.mkProgram App.init update root
+|> Program.toNavigable (parseHash Router.pageParser) App.urlUpdate
 |> Program.withReact "elmish-app"
 |> Program.withConsoleTrace
 |> Program.run
