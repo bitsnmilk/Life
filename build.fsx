@@ -1,32 +1,17 @@
 #r "paket:
-nuget Fake.Core.Target prerelease
-nuget Fake.DotNet.Cli
-nuget Fake.IO.FileSystem
-nuget Fake.Core.Target //"
+nuget Fake.Core.Target
+nuget Fake.DotNet.Cli //"
 #load "./.fake/build.fsx/intellisense.fsx"
 
 open Fake.Core
 open Fake.DotNet
-open Fake.IO
-open Fake.IO.FileSystemOperators
-open Fake.IO.Globbing.Operators
-open Fake.Core.TargetOperators
 
-Target.create "Clean" (fun _ -> fake
-    !! "src/**/bin"
-    ++ "src/**/obj"
-    |> Shell.cleanDirs
-)
+// Default target
+Target.create "Default" (fun _ ->
+  Trace.trace "Hello World from FAKE")
 
-Target.create "Build" (fun _ ->
-    !! "src/**/*.*proj"
-    |> Seq.iter (DotNet.build id)
-)
+Target.create "Migrate" (fun _ ->
+  (DotNet.exec (DotNet.Options.withWorkingDirectory "./db") "run" "") |> ignore)
 
-Target.create "All" ignore
-
-"Clean"
-  ==> "Build"
-  ==> "All"
-
-Target.runOrDefault "All"
+// start build
+Target.runOrDefault "Default"
