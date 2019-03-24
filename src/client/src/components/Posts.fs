@@ -16,8 +16,9 @@ let update model command =
 
 let postView (post : Post) =
     let humanDate = post.UpdatedAt.ToShortTimeString()
+    let postLink = post.Id |> Global.Page.Post |> Global.toHash
     li [ ItemScope true ; ItemType "http://schema.org/BlogPosting"]  [
-        a [ Href "/" ; ItemProp "url" ] [
+        a [ Href postLink ; ItemProp "url" ] [
             div [ ClassName "p-wrap" ] [
                 article [ ClassName "inner" ] [
                     time [ Fable.Helpers.React.Props.DateTime humanDate ; ItemProp "datePublished" ] [
