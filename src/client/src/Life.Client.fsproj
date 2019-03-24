@@ -3,13 +3,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Domain.fs" />
+    <Compile Include="Types.fs" />
+    <Compile Include="Router.fs" />
     <Compile Include="components/Post.fs" />
     <Compile Include="components/Posts.fs" />
     <Compile Include="components/Header.fs" />
     <Compile Include="components/Footer.fs" />
     <Compile Include="modules/Home.fs" />
     <Compile Include="modules/Post.fs" />
+    <Compile Include="modules/LogIn.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>

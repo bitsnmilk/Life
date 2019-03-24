@@ -1,18 +1,18 @@
 module Components.Post
 
-open Domain
+open Types
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 
-let view (model : Post) dispatch =
+let view post =
     article [ ClassName "single-content" ; ItemScope true ; ItemType "http://schema.org/BlogPosting" ] [
         div [ ClassName "feat" ] [
             h5 [ ClassName "page-date" ] [
-                time [ Props.DateTime(model.CreatedAt.ToShortDateString()) ; ItemProp "datePublished" ] [ str <| model.CreatedAt.ToShortDateString() ]
+                time [ Props.DateTime(post.CreatedAt.ToShortDateString()) ; ItemProp "datePublished" ] [ str <| post.CreatedAt.ToShortDateString() ]
             ]
         ]
-        h1 [ ClassName "page-title" ; ItemProp "name headline" ] [ str <| model.Title ]
-        div [ ItemProp "articleBody" ] [ str <| model.Body ]
+        h1 [ ClassName "page-title" ; ItemProp "name headline" ] [ str <| post.Title ]
+        div [ ItemProp "articleBody" ] [ str <| post.Body ]
         div [ ClassName "feat share" ] [
             a [ Href "http://twitter.com/share" ; ClassName "popup" ] [
                 span [ ClassName "icon-twitter" ] []

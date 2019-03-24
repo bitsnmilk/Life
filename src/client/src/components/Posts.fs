@@ -1,22 +1,14 @@
 module Components.Posts
 
-open Domain
+open Types
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 
-type PostsModel = { Posts : Post list }
-let initModel = { Posts = [] }
 
-type PostAction =
-| Refresh of Post list
-
-let update model command =
-    match command with
-    | Refresh posts -> { model with Posts = posts }
-
-let postView (post : Post) =
+let postView post =
     let humanDate = post.UpdatedAt.ToShortTimeString()
-    let postLink = post.Id |> Global.Page.Post |> Global.toHash
+    let postLink = sprintf "#post/%d" post.Id
+
     li [ ItemScope true ; ItemType "http://schema.org/BlogPosting"]  [
         a [ Href postLink ; ItemProp "url" ] [
             div [ ClassName "p-wrap" ] [
@@ -30,10 +22,7 @@ let postView (post : Post) =
         ]
     ]
 
-let view model dispatch =
-    let posts posts =
-        posts |> List.map postView
-
+let view posts =
     ul [ ClassName "posts" ] [
-        yield! posts model.Posts
+        yield! posts |> List.map postView
     ]

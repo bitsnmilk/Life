@@ -1,20 +1,18 @@
 module Modules.Home
 
-open Domain
-open Domain.Types
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 
 open Components
 
-let view model  dispatch =
+let view model =
     div [ ClassName "site-wrapper" ] [
-        Header.view model dispatch
+        Header.view()
         main [] [
             div [Id "home-page"] [
-                Posts.view { Posts = model.Posts } dispatch
+                Posts.view model
             ]
         ]
-        Footer.view model dispatch
+        Footer.view()
     ]
 

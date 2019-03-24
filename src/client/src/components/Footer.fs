@@ -3,7 +3,7 @@ module Components.Footer
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 
-let view model dispatch =
+let view() =
     footer [] [
         small [] [
             str "Powered by Life"

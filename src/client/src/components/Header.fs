@@ -1,11 +1,10 @@
 module Components.Header
 
-open Domain
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
 
-let view model dispatch =
-    let homePageLink = Global.Page.Home |> Global.toHash
+let view() =
+    let homePageLink = "#home"
     header [] [
         div [ ClassName "h-wrap" ] [
             h1 [ ClassName "title" ] [
