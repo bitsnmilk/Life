@@ -1,0 +1,13 @@
+@import 'base/variables';
+@import 'base/reset';
+@import 'base/utilities';
+@import 'base/global';
+
+@import 'components/icons';
+@import 'components/syntax';
+
+@import 'partials/header';
+@import 'partials/footer';
+
+@import 'pages/home';
+@import 'pages/post';
